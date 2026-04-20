@@ -7,12 +7,8 @@ import time
 increase = 0
 
 # The starting cost for each of the upgrades.
-upgradecost = 10
-upgradecost2 = 1000
-upgradecost3 = 10000
-upgradecost4 = 10
-upgradecost5 = 50
-upgradecost6 = 100
+upgradecost = [10, 1000, 10000, 10, 50, 100]
+upgradevalues = [2, 25, 100]
 
 # Cookies per click
 cpc = 1
@@ -27,14 +23,15 @@ def picture():
     increase += cpc
     label["text"] = increase
 # Upgrade functions (Cookies per click upgrades)
-def upgrade():
+def upgrade(index):
     global increase
-    global upgradecost
     global cpc
-    if increase >= upgradecost:
-        increase -= upgradecost
+    cost = upgradecost[0]
+    value = upgradevalues[0]
+    if increase >= cost:
+        increase -= cost
         upgradecost += 100
-        cpc += 2
+        cpc += value
         label["text"] = increase
         upgradebutton["text"] = f"{upgradecost} Cookies to Upgrade (+2)"
         CPCCount["text"] = f"Cookies Per Click: {cpc}"
@@ -42,12 +39,13 @@ def upgrade():
 
 def upgrade2():
     global increase 
-    global upgradecost2
     global cpc
+    cost = upgradecost[1]
+    value = upgradevalues[2]
     if increase >= upgradecost2:
         increase -= upgradecost2
-        upgradecost2 += 1000
-        cpc += 25
+        upgradecost2 += cost
+        cpc += value
         label["text"] = increase
         upgradebutton2["text"] = f"{upgradecost2} Cookies to Upgrade (+25)"
         CPCCount["text"] = f"Cookies Per Click: {cpc}"
