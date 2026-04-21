@@ -41,7 +41,7 @@ def upgrade2():
     global increase 
     global cpc
     cost = upgradecost[1]
-    value = upgradevalues[2]
+    value = upgradevalues[1]
     if increase >= upgradecost2:
         increase -= upgradecost2
         upgradecost2 += cost
@@ -53,12 +53,13 @@ def upgrade2():
 
 def upgrade3():
     global increase
-    global upgradecost3
     global cpc
+    cost = upgradecost[2]
+    value = upgradevalues[2]
     if increase >= upgradecost3:
         increase -= upgradecost3
-        upgradecost3 += 10000
-        cpc += 100
+        upgradecost3 += cost
+        cpc += value
         label["text"] = increase
         upgradebutton3["text"] = f"{upgradecost3} Cookies to Upgrade (+100)"
         CPCCount["text"] = f"Cookies Per Click: {cpc}"
