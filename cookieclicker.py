@@ -26,10 +26,8 @@ def picture():
 def upgrade(index):
     global increase
     global cpc
-    cost = upgradecost[0]
-    value = upgradevalues[0]
-    if increase >= cost:
-        increase -= cost
+    if increase >= upgradecost[index]:
+        increase -= upgradecost[index]
         upgradecost += 100
         cpc += value
         label["text"] = increase
