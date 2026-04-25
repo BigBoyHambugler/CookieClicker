@@ -1,0 +1,121 @@
+import tkinter as tk
+import threading
+import time
+
+# Autoclicker upgrades are purposely low for grading purposes.
+# The total cookies amount
+increase = 0
+
+# Cookies per click
+cpc = 1
+
+# Autoclicker tracker
+autoclicker = 0
+
+# The starting cost for each of the upgrades.
+upgradecost = [10, 1000, 10000, 10, 50, 100]
+upgradevalues = [2, 25, 100, 5, 10, 25]
+
+# Functions
+# Cookie Clicking
+def picture():
+    global increase
+    increase += cpc
+    label["text"] = increase
+
+# Upgrade functions (Cookie per click upgrades)
+def upgrade(index):
+    global increase
+    global cpc
+    global autoclicker
+
+    cost = upgradecost[index]
+    value = upgradevalues[index]
+
+    if increase >= cost:
+        increase -= cost
+
+        if index < 3:
+            cpc += value
+            CPCCount["text"] = f"Cookies Per Click: {cpc}"
+        else:
+            autoclicker += value
+
+        # increase costs for next purchase
+        upgradecost[index] += cost
+
+        label["text"] = increase
+        display()
+
+# Update button text display
+def display():
+    upgradebutton.config(text=f"{upgradecost[0]} Cookies to Upgrade (+2)")
+    upgradebutton2.config(text=f"{upgradecost[1]} Cookies to Upgrade (+25)")
+    upgradebutton3.config(text=f"{upgradecost[2]} Cookies to Upgrade (+100)")
+    upgradebutton4.config(text=f"{upgradecost[3]} Cookies to Upgrade (Autoclicker +5)")
+    upgradebutton5.config(text=f"{upgradecost[4]} Cookies to Upgrade (Autoclicker +10)")
+    upgradebutton6.config(text=f"{upgradecost[5]} Cookies to Upgrade (Autoclicker +25)")
+
+# Autoclicker upgrade function
+def Autoclicker():
+    global increase
+    while True:
+        time.sleep(0.5)
+        increase += autoclicker
+        label["text"] = increase
+
+# Autoclicker Threads
+autoclick = threading.Thread(target=Autoclicker, daemon=True)
+autoclick.start()
+
+# Title
+root = tk.Tk()
+root.title("Cookie Clicker")
+
+# Images to use for the upgrades
+img = tk.PhotoImage(file="./assets/cookie.png").subsample(3)
+img2 = tk.PhotoImage(file="./assets/upgrade1.png").subsample(8)
+img3 = tk.PhotoImage(file="./assets/upgrade2.png").subsample(8)
+img4 = tk.PhotoImage(file="./assets/upgrade3.png").subsample(20)
+img5 = tk.PhotoImage(file="./assets/upgrade4.png").subsample(20)
+img6 = tk.PhotoImage(file="./assets/upgrade5.png").subsample(10)
+
+
+# Texts and Buttons
+label = tk.Label(root, text=0, font=500)
+label.grid(row=0, column=0)
+
+# This tracks cookie per click whenever the player upgrades
+CPCCount = tk.Label(root, text=f"Cookies Per Click: {cpc}")
+CPCCount.grid(row=1, column=0)
+
+# Upgrade Buttons for better cookies er click, and the autoclicker upgrades
+upgradebutton = tk.Button(root,
+    text=f"{upgradecost[0]} Cookies to Upgrade (+2)", image=img2, compound="left", command=lambda: upgrade(0), font=500)
+upgradebutton.grid(row=3, column=0)
+
+upgradebutton2 = tk.Button(root,
+    text=f"{upgradecost[1]} Cookies to Upgrade (+25)", image=img5, compound="left", command=lambda: upgrade(1), font=500)
+upgradebutton2.grid(row=4, column=0)
+
+upgradebutton3 = tk.Button(root,
+    text=f"{upgradecost[2]} Cookies to Upgrade (+100)", image=img3, compound="left", command=lambda: upgrade(2))
+upgradebutton3.grid(row=5, column=0)
+
+upgradebutton4 = tk.Button(root,
+    text=f"{upgradecost[3]} Cookies to Upgrade (Autoclicker +5)", image=img4, compound="left", command=lambda: upgrade(3))
+upgradebutton4.grid(row=6, column=0)
+
+upgradebutton5 = tk.Button(root,
+    text=f"{upgradecost[4]} Cookies to Upgrade (Autoclicker +10)", image=img6, compound="left", command=lambda: upgrade(4))
+upgradebutton5.grid(row=7, column=0)
+
+upgradebutton6 = tk.Button(root,
+    text=f"{upgradecost[5]} Cookies to Upgrade (Autoclicker +25)", image=img6, compound="left", command=lambda: upgrade(5))
+upgradebutton6.grid(row=8, column=0)
+
+# The cookie button to increase the amount of cookies
+button = tk.Button(root, image=img, command=picture)
+button.grid(row=2, column=0)
+
+root.mainloop()
